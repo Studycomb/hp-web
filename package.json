@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "unit-test": "mocha ./test/*.test.[jt]s"
   },
   "dependencies": {
     "@prisma/client": "^6.4.1",
