@@ -84,3 +84,14 @@ export async function updatePassword(formData: FormData) {
   const auth = getServerAuthProvider();
   return await auth.updatePassword(code, password);
 }
+
+export async function deleteAccount(): Promise<void>{
+  const auth = getServerAuthProvider();
+  const user = await auth.getCurrentUser();
+  if (user) {
+    const id = user.id;
+    const status = await auth.deleteAccount(id);
+    console.log( 'data deleted', status)
+  }
+  return
+}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { logout } from "../actions/auth";
+import { logout, deleteAccount } from "../actions/auth";
 import { getClientAuthProvider } from "@/lib/auth/factory/getClientProvider";
 
 export default function Home() {
@@ -34,6 +34,10 @@ export default function Home() {
         <Button formAction={logout} className="w-full bg-mindswarm-500 hover:bg-mindswarm-600 text-white bg-black">
           Logout
         </Button>
+        <Button formAction={async(fd: FormData) => {await deleteAccount();}} className="w-full bg-mindswarm-500 hover:bg-mindswarm-600 text-white bg-black">
+          Delete My Account
+        </Button>
+
         </form>
       </main>
     </div>

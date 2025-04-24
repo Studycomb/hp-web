@@ -125,5 +125,16 @@ export const supabaseServerAuth: AuthProvider = {
         const supabase = await createClient();
         const { error } = await supabase.auth.exchangeCodeForSession(code);
         return error ? false : true;
+    },
+
+    async deleteAccount(id: string){
+        const supabase = await createClient();
+        const { data, error } = await supabase.auth.admin.deleteUser(id);
+        if (error) {
+            console.error('Error deleting account:', error.message);
+            return false;
+        }
+
+        return true
     }
 };

@@ -15,4 +15,5 @@ export interface AuthProvider {
     resetPassword: (email: string) => Promise<boolean>;
     updatePassword: (code: string, password: string) => Promise<boolean>;
     verifyCode: (code: string) => Promise<boolean>;
+    deleteAccount: (id: string) => Promise<boolean>;
 }
