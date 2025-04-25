@@ -1,5 +1,6 @@
 import createClient from '../../supabase/server';
 import { AuthProvider, AuthUser } from '../types';
+import { createServerClient } from '@supabase/ssr';
 
 export const supabaseServerAuth: AuthProvider = {
     async signIn(email: string, password: string) {
@@ -127,14 +128,27 @@ export const supabaseServerAuth: AuthProvider = {
         return error ? false : true;
     },
 
-    async deleteAccount(id: string){
+    async deleteAccount(id: string) {
         const supabase = await createClient();
-        const { data, error } = await supabase.auth.admin.deleteUser(id);
+        const adminClient = createServerClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.SUPABASE_SERVICE_ROLE_KEY!,
+            {
+                cookies: {
+                    getAll() {
+                        return [];
+                    },
+                    setAll() {
+                        // no-op
+                    },
+                },
+            }
+        );
+        const { data, error } = await (await adminClient).auth.admin.deleteUser(id);
         if (error) {
             console.error('Error deleting account:', error.message);
             return false;
         }
-
-        return true
+        return true;
     }
 };

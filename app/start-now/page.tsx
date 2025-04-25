@@ -34,7 +34,7 @@ export default function Home() {
         <Button formAction={logout} className="w-full bg-mindswarm-500 hover:bg-mindswarm-600 text-white bg-black">
           Logout
         </Button>
-        <Button formAction={async(fd: FormData) => {await deleteAccount();}} className="w-full bg-mindswarm-500 hover:bg-mindswarm-600 text-white bg-black">
+        <Button formAction={deleteAccount} className="w-full bg-mindswarm-500 hover:bg-mindswarm-600 text-white bg-black mt-4">
           Delete My Account
         </Button>
 
