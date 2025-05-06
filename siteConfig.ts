@@ -9,11 +9,6 @@ const siteInfo = {
     text: "", // Kan lämnas som "" om man vill ha en tom knapp
     showText: false,
   },
-  colors: {
-    primary: "#FFFFFF",
-    secondary: "#000000",
-    accent: "#0000FF",
-  },
   info: {
     contact: {
       email: "info@studycomb.se",
