@@ -42,10 +42,12 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/react-router-dom": "^5.3.3",
+    "culori": "^4.0.1",
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
     "prisma": "^6.6.0",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
     "typescript": "^5"
   }
