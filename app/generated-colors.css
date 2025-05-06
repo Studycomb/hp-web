@@ -1,11 +1,11 @@
 @theme {
---color-primary-200: #ffffff;
---color-primary-300: #FFFFFF;
---color-primary-400: #e2e2e2;
---color-secondary-200: #262626;
---color-secondary-300: #000000;
---color-secondary-400: #000000;
---color-accent-200: #6137ff;
---color-accent-300: #0000FF;
---color-accent-400: #0000e1;
+--color-primary-200: #262626;
+--color-primary-300: #000000;
+--color-primary-400: #000000;
+--color-secondary-200: #ffffff;
+--color-secondary-300: #FFFFFF;
+--color-secondary-400: #e2e2e2;
+--color-accent-200: #ffce41;
+--color-accent-300: #FFA500;
+--color-accent-400: #e08a00;
 }

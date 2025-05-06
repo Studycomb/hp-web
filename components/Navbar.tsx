@@ -34,7 +34,7 @@ const NavBar = ({
             variant="ghost"
             size="sm"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-gray-700"
+            className="text-[var(--color-secondary-200)]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@ const NavBar = ({
 
       {/* Mobilmeny */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-b px-4 py-3 shadow-md">
+        <div className="md:hidden bg-[var(--color-primary-300)] border-b px-4 py-3 shadow-md">
           <div className="flex flex-col space-y-3">
             {user ? (
               <ProfileButton

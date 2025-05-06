@@ -38,10 +38,10 @@ export function ProfileButton({
           </Avatar>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 backdrop-blur-sm bg-[var(--color-primary-300)]/90 border border-[var(--color-accent-200)]">
+      <PopoverContent className="w-80 backdrop-blur-sm bg-[var(--color-primary-300)]/90 border border-[var(--color-secondary-200)]">
         <div className="space-y-4">
           <div className="space-y-2">
-            <h4 className="font-medium leading-none">
+            <h4 className="font-medium leading-none text-[var(--color-secondary-200)]">
               {fullName}
             </h4>
             <p className="text-sm text-muted-foreground">{email}</p>

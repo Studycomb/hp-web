@@ -29,14 +29,14 @@ export default function QuizCard() {
     return (
       <Card className="w-full max-w-xl shadow-xl p-8">
         <div className="animate-pulse space-y-4">
-          <div className="h-4 bg-gray-300 rounded w-3/4 mx-auto" />
-          <div className="h-3 bg-gray-200 rounded w-1/2 mx-auto" />
+          <div className="h-4 bg-[var(--color-primary-400)] rounded w-3/4 mx-auto" />
+          <div className="h-3 bg-[var(--color-primary-400)] rounded w-1/2 mx-auto" />
           <div className="space-y-2">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-4 bg-gray-200 rounded" />
+              <div key={i} className="h-4 bg-[var(--color-primary-400)] rounded" />
             ))}
           </div>
-          <div className="h-10 bg-yellow-200 rounded w-full" />
+          <div className="h-10 bg-[var(--color-accent-200)] rounded w-full" />
         </div>
       </Card>
     );
@@ -73,8 +73,8 @@ export default function QuizCard() {
           onClick={handleNext}
           className={`w-full py-1.5 font-bold transition ${
             pickedAnswer
-              ? "bg-yellow-300 text-black hover:bg-amber-400"
-              : "bg-yellow-200 text-black"
+              ? "bg-[var(--color-accent-200)] text-[var(--color-secondary-300)] hover:bg-[var(--color-accent-400)]"
+              : "bg-[var(--color-accent-200)] text-[var(--color-secondary-300)]"
           }`}
         >
           Next Question
