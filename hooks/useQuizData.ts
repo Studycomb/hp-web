@@ -1,11 +1,11 @@
+// hooks/useQuizData.ts
 import { useEffect, useState } from "react";
 import { Alternative } from "@prisma/client";
 import { QuizWithQuestionsAndAlternatives } from "@/lib/prismaTypes";
-import { useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 
 export function useQuizData() {
-  const { id: quizId } = useParams(); // getting the id from the URL
+  const { id: quizId } = useParams();
   const [quiz, setQuiz] = useState<QuizWithQuestionsAndAlternatives | null>(
     null
   );
@@ -13,69 +13,52 @@ export function useQuizData() {
   const [pickedAnswer, setPickedAnswer] = useState<Alternative | null>(null);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
-    const fetchQuiz = async () => {
+    async function fetchQuiz() {
       try {
         const res = await fetch(`/api/quiz/${quizId}`);
         const data = await res.json();
         setQuiz(data);
+      } catch (e) {
+        console.error(e);
+      } finally {
         setIsLoading(false);
-      } catch (error) {
-        console.error(error);
       }
-    };
+    }
     fetchQuiz();
   }, [quizId]);
 
   const handleAnswerSelect = (answer: Alternative) => {
-    const updatedAnswers = [...pickedAnswers];
-    updatedAnswers[questionNumber] = answer;
-    setPickedAnswers(updatedAnswers);
+    const next = [...pickedAnswers];
+    next[questionNumber] = answer;
+    setPickedAnswers(next);
     setPickedAnswer(answer);
   };
 
   const saveResults = async () => {
     if (!quiz) return;
-    const correctCount = pickedAnswers.reduce((count, answer) => {
-      return answer?.is_correct ? count + 1 : count;
-    }, 0);
-    const score = {
-      numberCorrectAnswers: correctCount,
-    };
-    try {
-      const res = await fetch(`/api/quiz/${quiz.id}/result`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(score),
-      });
-      if (!res.ok) {
-        throw new Error("Failed to save results");
-      }
-    } catch (error) {
-      console.error("Error saving results:", error);
-    }
+    const correctCount = pickedAnswers.reduce(
+      (sum, a) => sum + (a?.is_correct ? 1 : 0),
+      0
+    );
+    await fetch(`/api/quiz/${quiz.id}/result`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numberCorrectAnswers: correctCount }),
+    });
   };
 
   const handleNext = () => {
     if (!pickedAnswer) {
-      alert("Please select an answer before proceeding.");
+      alert("Välj ett svar först!");
       return;
     }
-
-    const nextQuestionNumber = questionNumber + 1;
-
-    if (nextQuestionNumber >= totalQuestionNumber) {
-      saveResults();
-      router.push("/");
-      return;
+    const total = quiz?.questions.length ?? 0;
+    if (questionNumber + 1 < total) {
+      setQuestionNumber((qn) => qn + 1);
+      setPickedAnswer(pickedAnswers[questionNumber + 1] || null);
     }
-
-    setQuestionNumber(nextQuestionNumber);
-    setPickedAnswer(pickedAnswers[nextQuestionNumber] || null);
   };
 
   const handlePrev = () => {
@@ -86,19 +69,19 @@ export function useQuizData() {
     }
   };
 
-  const currentQuestion = quiz?.questions?.[questionNumber];
-  const totalQuestionNumber = quiz?.questions?.length || 0;
-  const quizCategory = quiz?.category || "";
-
   return {
-    currentQuestion,
+    // existerande värden
+    currentQuestion: quiz?.questions[questionNumber] ?? null,
     questionNumber,
-    totalQuestionNumber,
+    totalQuestionNumber: quiz?.questions.length ?? 0,
     pickedAnswer,
     handleAnswerSelect,
     handleNext,
     handlePrev,
-    quizCategory,
+    saveResults,
+    quizCategory: quiz?.category ?? "",
     isLoading,
+    pickedAnswers,
+    quiz,
   };
 }
