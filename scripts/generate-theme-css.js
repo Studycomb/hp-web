@@ -1,7 +1,7 @@
 const { writeFileSync } = require("fs");
 const { parse, converter, formatHex } = require("culori");
 //Load your siteConfig
-const { colors } = require("../colorConfig.json");
+const { colors } = require("../configs/colorConfig.json");
 
 //Create a converter to turn any color into OKLCH space
 const toLch = converter("lch");
@@ -53,7 +53,7 @@ const output = `@theme {\n${Object.entries(colors)
   .join("\n")}\n}`;
 
 // 6. Write (or overwrite) the generated CSS file in your app folder
-writeFileSync("app/generated-colors.css", output);
+writeFileSync("app/[locale]/generated-colors.css", output);
 
 // 7. Log success so you know it ran
 console.log("app/generated-colors.css updated successfully.");

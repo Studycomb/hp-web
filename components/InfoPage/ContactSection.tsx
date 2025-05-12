@@ -1,14 +1,19 @@
 import { motion } from "framer-motion";
 import { Mail, Phone, Clock } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-export const ContactSection = (
-  { email, telephoneTimes, timeStamp, more }: {
-    email: string;
-    telephoneTimes: string;
-    timeStamp: string;
-    more: string;
-  }
-) => {
+export const ContactSection = ({
+  email,
+  telephoneTimes,
+  timeStamp,
+  more,
+}: {
+  email: string;
+  telephoneTimes: string;
+  timeStamp: string;
+  more: string;
+}) => {
+  const t = useTranslations("info");
   return (
     <motion.section
       initial={{ opacity: 0, y: 20 }}
@@ -19,7 +24,7 @@ export const ContactSection = (
     >
       <h2 className="text-2xl font-bold mb-6 text-[var(--color-accent-400)] flex items-center gap-2">
         <Mail className="w-6 h-6" />
-        Kontakt
+        {t("contact.title")}
       </h2>
       <div className="bg-[var(--color-primary-300)]/80 backdrop-blur-lg rounded-2xl p-6 shadow-lg">
         <div className="space-y-4">

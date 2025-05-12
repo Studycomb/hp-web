@@ -1,8 +1,9 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
 import { syncUser } from "@/lib/auth/syncUser";
 import { getServerAuthProvider } from "@/lib/auth/factory/getServerProvider";
+import { getLocale } from "next-intl/server";
 
 export async function login(formData: FormData) {
   const data = {
@@ -12,20 +13,22 @@ export async function login(formData: FormData) {
 
   const auth = getServerAuthProvider();
   const result = await auth.signIn(data.email, data.password);
+  const locale = await getLocale();
   if (!result) {
-    redirect("/auth/login/error");
+    redirect({href: "/login/error", locale});
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+    redirect({href: "/", locale});
 }
 
 export async function logout() {
   const auth = getServerAuthProvider();
   const result = await auth.signOut();
+  const locale = await getLocale();
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect({href: "/", locale});
 }
 
 export async function signup(formData: FormData) {
@@ -36,8 +39,9 @@ export async function signup(formData: FormData) {
   };
 
   const result = await auth.signUp(data.email, data.password);
+  const locale = await getLocale();
   if (!result) {
-    redirect("/auth/signup/error");
+    redirect({href: "/signup/error", locale});
   }
 
   const name = formData.get("name");
@@ -50,9 +54,16 @@ export async function signup(formData: FormData) {
   await syncUser(result);
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect({href: "/", locale});
 }
 
+/**
+ * Initiates the password reset process for a user.
+ * It sends a password reset email to the user's email address with a reset link.
+ * 
+ * @param formData - Form data containing the user's email address
+ * @returns Promise<boolean> - Returns true if the reset email was sent successfully, false otherwise
+ */
 export async function resetPassword(formData: FormData) {
   const email = formData.get("email") as string;
   if (!email) {
@@ -63,10 +74,19 @@ export async function resetPassword(formData: FormData) {
   return await auth.resetPassword(email);
 }
 
+/**
+ * Updates a user's password using a reset code.
+ * The reset code is obtained from the URL parameters when the user clicks the reset link.
+ * 
+ * @param formData - Form data containing:
+ *   - password: The new password to set
+ *   - code: The reset code from the email link
+ * @returns Promise<boolean> - Returns true if the password was updated successfully, false otherwise
+ */
 export async function updatePassword(formData: FormData) {
   const password = formData.get("password") as string;
   const code = formData.get("code") as string;
-
+  
   if (!password || !code) {
     return false;
   }

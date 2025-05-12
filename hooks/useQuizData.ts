@@ -1,77 +1,87 @@
+// hooks/useQuizData.ts
 import { useEffect, useState } from "react";
-import { Quiz, Alternative } from "@prisma/client";
+import { Alternative } from "@prisma/client";
 import { QuizWithQuestionsAndAlternatives } from "@/lib/prismaTypes";
+import { useParams } from "next/navigation";
 
 export function useQuizData() {
-  const [quizzes, setQuizzes] = useState<Quiz[] | null>(null);
+  const { id: quizId } = useParams();
   const [quiz, setQuiz] = useState<QuizWithQuestionsAndAlternatives | null>(
     null
   );
+  const [pickedAnswers, setPickedAnswers] = useState<Alternative[]>([]);
   const [pickedAnswer, setPickedAnswer] = useState<Alternative | null>(null);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchQuiz() {
       try {
-        const res = await fetch("/api/quiz");
-        const data = await res.json();
-        setQuizzes(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    // TODO: quizzes[1] is the quiz we want to fetch for testing only, change it later
-    if (!quizzes || !quizzes[1]) return;
-    const fetchQuiz = async () => {
-      try {
-        // TODO: dynamically get quizId from quizzes, this is only for testing
-        const quizId = quizzes[1].id;
         const res = await fetch(`/api/quiz/${quizId}`);
         const data = await res.json();
         setQuiz(data);
+      } catch (e) {
+        console.error(e);
+      } finally {
         setIsLoading(false);
-      } catch (error) {
-        console.error(error);
       }
-    };
+    }
     fetchQuiz();
-  }, [quizzes]);
+  }, [quizId]);
 
   const handleAnswerSelect = (answer: Alternative) => {
+    const next = [...pickedAnswers];
+    next[questionNumber] = answer;
+    setPickedAnswers(next);
     setPickedAnswer(answer);
   };
 
-  const handleNext = () => {
-    // TODO: save answer to database when user
-    // clicks next before setting pickedAnswer to null
-    setPickedAnswer(null);
-    if (questionNumber >= totalQuestionNumber - 1) {
-      setQuestionNumber(0);
-      return;
-    }
-    // TODO: save answer to database when user clicks next and there is no more questions
-    // next line is to be removed when saving to database
-    setQuestionNumber((prev) => prev + 1);
+  const saveResults = async () => {
+    if (!quiz) return;
+    const correctCount = pickedAnswers.reduce(
+      (sum, a) => sum + (a?.is_correct ? 1 : 0),
+      0
+    );
+    await fetch(`/api/quiz/${quiz.id}/result`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numberCorrectAnswers: correctCount }),
+    });
   };
 
-  const currentQuestion = quiz?.questions?.[questionNumber];
-  const totalQuestionNumber = quiz?.questions?.length || 0;
-  const quizCategory = quiz?.category || "";
+  const handleNext = () => {
+    if (!pickedAnswer) {
+      alert("Välj ett svar först!");
+      return;
+    }
+    const total = quiz?.questions.length ?? 0;
+    if (questionNumber + 1 < total) {
+      setQuestionNumber((qn) => qn + 1);
+      setPickedAnswer(pickedAnswers[questionNumber + 1] || null);
+    }
+  };
+
+  const handlePrev = () => {
+    if (questionNumber > 0) {
+      const prevQuestionNumber = questionNumber - 1;
+      setQuestionNumber(prevQuestionNumber);
+      setPickedAnswer(pickedAnswers[prevQuestionNumber] || null);
+    }
+  };
 
   return {
-    currentQuestion,
+    // existerande värden
+    currentQuestion: quiz?.questions[questionNumber] ?? null,
     questionNumber,
-    totalQuestionNumber,
+    totalQuestionNumber: quiz?.questions.length ?? 0,
     pickedAnswer,
     handleAnswerSelect,
     handleNext,
-    quizCategory: quizCategory,
+    handlePrev,
+    saveResults,
+    quizCategory: quiz?.category ?? "",
     isLoading,
+    pickedAnswers,
+    quiz,
   };
 }
