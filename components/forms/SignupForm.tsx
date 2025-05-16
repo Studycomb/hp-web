@@ -39,7 +39,7 @@ export default function SignupForm() {
   };
 
   return (
-    <Card className="max-w-md w-full shadow-xl">
+    <Card className="max-w-md w-full shadow-xl text-[var(--color-secondary-300)] bg-[var(--color-primary-200)]">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center">
           {/* Create an account */}
@@ -136,7 +136,7 @@ export default function SignupForm() {
 
           <Button
             formAction={signup}
-            className="w-full bg-black text-white transition-colors"
+            className="w-full bg-[var(--color-secondary-300)] text-[var(--color-primary-300)] transition-colors"
             disabled={
               !isEmailValid(email) ||
               !isPasswordValid(password) ||

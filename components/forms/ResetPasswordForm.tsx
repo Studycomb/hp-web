@@ -59,7 +59,7 @@ export default function ResetPasswordForm() {
   };
 
   return (
-    <Card className="max-w-md w-full shadow-xl">
+    <Card className="max-w-md w-full shadow-xl text-[var(--color-secondary-300)] bg-[var(--color-primary-200)]">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center text-mindswarm-700">
           {/* Reset your password */}
@@ -152,7 +152,7 @@ export default function ResetPasswordForm() {
 
           <Button
             type="submit"
-            className="w-full text-white bg-black"
+            className="w-full text-[var(--color-primary-300)] bg-[var(--color-secondary-300)]">
             disabled={isLoading}
           >
             {isLoading ? "Updating..." : "Update Password"}

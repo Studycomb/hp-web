@@ -22,7 +22,7 @@ export default function SigninForm() {
   const t = useTranslations("login");
   const [rememberMe, setRememberMe] = useState(false);
   return (
-    <Card className="max-w-md w-full shadow-xl">
+    <Card className="max-w-md w-full shadow-xl text-[var(--color-secondary-300)] bg-[var(--color-primary-200)]">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center">
           {/* Welcome back */}
@@ -78,7 +78,7 @@ export default function SigninForm() {
             </Link>
           </div>
 
-          <Button formAction={login} className="w-full text-white bg-black">
+          <Button formAction={login} className="w-full text-[var(--color-primary-300)] bg-[var(--color-secondary-400)]">
             <LogIn className="mr-2 h-4 w-4" />
             {/* Log in */}
             {t("logIn")}

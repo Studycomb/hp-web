@@ -43,8 +43,8 @@ export default function ResultPopup({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg p-0 bg-white shadow-2xl rounded-xl">
-        <div className="bg-gradient-to-r from-yellow-300 to-yellow-400 text-white p-5 rounded-t-xl">
+      <DialogContent className="max-w-lg p-0 bg-[var(--color-primary-300)] shadow-2xl rounded-xl">
+        <div className="bg-gradient-to-r from-[var(--color-accent-200)] to-[var(--color-accent-200)] text-[var(--color-secondary-300)] p-5 rounded-t-xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">{title}</DialogTitle>
             <DialogDescription className="mt-2 flex justify-between">
@@ -106,7 +106,7 @@ export default function ResultPopup({
         <div className="border-t px-5 py-4">
           <Button
             onClick={onClose}
-            className="w-full bg-gradient-to-r from-yellow-300 to-yellow-400 hover:from-yellow-400 hover:to-yellow-500 text-white font-medium"
+            className="w-full bg-gradient-to-r from-[var(--color-accent-200)] to-[var(--color-accent-300)] hover:from-[var(--color-accent-300)] hover:to-[var(--color-accent-400)] text-[var(--color-secondary-300)] font-medium"
           >
             Stäng
           </Button>

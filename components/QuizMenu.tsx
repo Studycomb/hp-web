@@ -69,7 +69,7 @@ export default function QuizMenu() {
       <motion.div
         layout
         transition={{ type: "spring", duration: 0.6 }}
-        className="bg-white/80 backdrop-blur-lg rounded-2xl p-4 sm:p-6 shadow-lg flex flex-col lg:flex-row lg:space-x-4"
+        className="text-[var(--color-secondary-400)] bg-[var(--color-primary-200)]/80 backdrop-blur-lg rounded-2xl p-4 sm:p-6 shadow-lg flex flex-col lg:flex-row lg:space-x-4"
       >
         {/* Main Accordion */}
         <motion.div
@@ -115,7 +115,7 @@ export default function QuizMenu() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
                     transition={{ delay: index * 0.05 }}
-                    className="border-b hover:bg-yellow-100 rounded-lg transition"
+                    className="border-b hover:bg-[var(--color-accent-200)]/40 rounded-lg transition"
                   >
                     <Link
                       href={`/quiz/${quiz.id}`}

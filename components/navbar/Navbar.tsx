@@ -22,7 +22,7 @@ const NavBar = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm bg-opacity-90 border-b shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-primary-300)]/80 backdrop-blur-sm bg-opacity-90 border-b shadow-sm">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold flex items-center gap-2">
           {logo && logo.trim() !== "" && (
