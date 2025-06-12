@@ -98,4 +98,4 @@ This web app receives quiz data from the external AI service via a secure endpoi
 
 ## 📄 License
 
-MIT — feel free to use and modify.
+http://www.apache.org/licenses/LICENSE-2.0
